@@ -5,6 +5,7 @@
         v-for="period in periods"
         :key="period"
         :class="{ 'is-active': period === currentPeriod }"
+        :data-test="period"
         @click="setPeriod(period)"
       >
         {{ period }}
@@ -15,7 +16,7 @@
       :key="post.id"
       class="panel-block">
       <a>{{ post.title }}</a>
-      <div>{{ post.created.format('D MMM YY') }}</div>
+      <div>{{ post.created.format('Do MMM YY') }}</div>
     </a>
   </nav>
 </template>
@@ -36,7 +37,6 @@ export default defineComponent({
     const posts = computed(() => {
       return [today, thisWeek, thisMonth].filter(post => {
         // currentPeriod is the ref
-        console.log(currentPeriod.value)
         if (currentPeriod.value === 'Today') {
           // if post is after yesterday's post
           return post.created.isAfter(moment().subtract(1, 'day'))
