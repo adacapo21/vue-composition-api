@@ -11,7 +11,7 @@ describe('Timeline', () => {
     // axios -> flushPromises
     await nextTick() // wait for the next frame
     await wrapper.get('[data-test="Today"]').trigger('click')
-    expect(wrapper.html()).toContain(today.created.format('Do MMM YY'))
+    expect(wrapper.html()).toContain(today.created.format('Do MMM YYYY'))
   })
 
   it('Click This Week', async () => {
@@ -20,7 +20,7 @@ describe('Timeline', () => {
 
     await wrapper.get('[data-test="This Week"]').trigger('click') // click event
 
-    expect(wrapper.html()).toContain(thisWeek.created.format('Do MMM YY'))
+    expect(wrapper.html()).toContain(thisWeek.created.format('Do MMM YYYY'))
   })
 
   it('Click This Month', async () => {
@@ -29,7 +29,7 @@ describe('Timeline', () => {
 
     await wrapper.get('[data-test="This Month"]').trigger('click') // click event
 
-    expect(wrapper.html()).toContain(thisMonth.created.format('Do MMM YY'))
+    expect(wrapper.html()).toContain(thisMonth.created.format('Do MMM YYYY'))
   })
 
 })
