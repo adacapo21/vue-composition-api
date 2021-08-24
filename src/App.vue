@@ -1,21 +1,14 @@
 <template>
-<!--  <div id="nav">-->
-<!--    <router-link to="/">Home</router-link> |-->
-<!--    <router-link to="/about">About</router-link>-->
-<!--  </div>-->
   <section class="section">
     <div class="container">
       <div class="notification is-info is-size-3">
         <p>
-          Learn to build this application with Vue.js 3,
-          the Composition API, TypeScript, Vue Router and Vue Test Utils!
+          An application with Vue.js 3, Composition API, TypeScript, Vue Router and Vue Test Utils!
         </p>
       </div>
       <timeline />
-<!--      <router-view />-->
     </div>
   </section>
-<!--  <router-view/>-->
 </template>
 
 <script>
