@@ -24,27 +24,35 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import moment from 'moment'
-import { today, thisWeek, thisMonth } from '@/mocks'
+import { Post } from '@/mocks'
+import { useStore } from '@/store'
 import TimelinePost from '@/components/TimelinePost.vue'
 
-function delay () {
-  // eslint-disable-next-line promise/param-names
-  return new Promise(res => {
-    setTimeout(res, 1000)
-  })
-}
 type Period = 'Today' | 'This Week' | 'This Month'
 
 export default defineComponent({
   name: 'Timeline',
   components: { TimelinePost },
   async setup () {
-    await delay()
     const periods = ['Today', 'This Week', 'This Month']
     // make period it, reactive
     const currentPeriod = ref<Period>('Today')
+    const store = useStore() // reference to store
+
+    if (!store.getState().posts.loaded) {
+      await store.getPosts()
+    }
+
+    const allPosts: Post[] = store.getState().posts.ids.reduce<Post[]>((acc, id) => {
+      const thePost = store.getState().posts.all.get(id)
+      if (!thePost) {
+        throw Error('This post was not found')
+      }
+      return acc.concat(thePost)
+    }, [])
+
     const posts = computed(() => {
-      return [today, thisWeek, thisMonth].filter(post => {
+      return allPosts.filter(post => {
         // currentPeriod is the ref
         if (currentPeriod.value === 'Today') {
           // if post is after yesterday's post
