@@ -27,12 +27,19 @@ import moment from 'moment'
 import { today, thisWeek, thisMonth } from '@/mocks'
 import TimelinePost from '@/components/TimelinePost.vue'
 
+function delay () {
+  // eslint-disable-next-line promise/param-names
+  return new Promise(res => {
+    setTimeout(res, 1000)
+  })
+}
 type Period = 'Today' | 'This Week' | 'This Month'
 
 export default defineComponent({
   name: 'Timeline',
   components: { TimelinePost },
-  setup () {
+  async setup () {
+    await delay()
     const periods = ['Today', 'This Week', 'This Month']
     // make period it, reactive
     const currentPeriod = ref<Period>('Today')

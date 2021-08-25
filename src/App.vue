@@ -6,7 +6,14 @@
           An application with Vue.js 3, Composition API, TypeScript, Vue Router and Vue Test Utils!
         </p>
       </div>
-      <timeline />
+      <suspense>
+        <template #default>
+          <timeline />
+        </template>
+        <template #fallback>
+          <spinner />
+        </template>
+      </suspense>
     </div>
   </section>
 </template>
@@ -14,11 +21,13 @@
 <script>
 import { defineComponent } from 'vue'
 import Timeline from './components/Timeline'
+import Spinner from '@/components/Spinner'
 
 export default defineComponent({
   name: 'App',
   components: {
-    Timeline
+    Timeline,
+    Spinner
   }
 })
 </script>
