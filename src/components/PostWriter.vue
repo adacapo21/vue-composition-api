@@ -20,17 +20,19 @@
           ref="contentEditable"
           @input="handleInput"
         ></div>
+      </div>
       <div class="column">
         <div v-html="html" />
-      </div>
       </div>
      </div>
 </template>
 
 <script lang="ts">
 import { Post } from '../mocks'
-import { defineComponent, ref, PropType, onMounted, watchEffect } from 'vue'
+import { defineComponent, ref, PropType, onMounted, watchEffect, watch } from 'vue'
 import { parse } from 'marked'
+import highlight from 'highlight.js'
+import debounce from 'lodash/debounce'
 
 export default defineComponent({
   props: {
@@ -44,10 +46,20 @@ export default defineComponent({
     const title = ref(props.post.title)
     const content = ref('##Title \n Enter you post content...')
     const html = ref('')
+    const parseHtml = (str: string) => {
+      html.value = parse(str, {
+        gfm: true,
+        breaks: true,
+        highlight: (code: string) => {
+          return highlight.highlightAuto(code).value
+        }
+      })
+    }
+    watch(content, debounce(parseHtml, 250), { immediate: true })
+    // watch(content, debounce((newVal) => {
+    //   parseHtml(newVal)
+    // }, 250), { immediate: true })
 
-    watchEffect(() => {
-      html.value = parse(content.value)
-    })
     const contentEditable = ref<HTMLDivElement | null>(null)
     const handleInput = () => {
       if (!contentEditable.value) {
@@ -72,3 +84,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+.column {
+  overflow-x: scroll;
+}
+</style>
