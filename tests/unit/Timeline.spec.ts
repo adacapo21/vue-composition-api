@@ -10,7 +10,7 @@ jest.mock('axios', () => ({
   }
 }))
 
-function mountTimeline() {
+function mountTimeline () {
   return mount({
     components: { Timeline },
     template: `

@@ -24,9 +24,9 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import moment from 'moment'
-import { Post } from '@/mocks'
-import { useStore } from '@/store'
-import TimelinePost from '@/components/TimelinePost.vue'
+import { Post } from '../mocks'
+import { useStore } from '../store'
+import TimelinePost from './TimelinePost.vue'
 
 type Period = 'Today' | 'This Week' | 'This Month'
 
@@ -34,7 +34,7 @@ export default defineComponent({
   name: 'Timeline',
   components: { TimelinePost },
   async setup () {
-    const periods = ['Today', 'This Week', 'This Month']
+    const periods: Period[] = ['Today', 'This Week', 'This Month']
     // make period it, reactive
     const currentPeriod = ref<Period>('Today')
     const store = useStore() // reference to store

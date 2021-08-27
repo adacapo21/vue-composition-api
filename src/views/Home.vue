@@ -1,18 +1,33 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <section class="section">
+    <div class="container">
+      <div class="notification is-info is-size-3">
+        <p>
+          An application with Vue.js 3, Composition API, TypeScript, Vue Router and Vue Test Utils!
+        </p>
+      </div>
+      <suspense>
+        <template #default>
+          <timeline />
+        </template>
+        <template #fallback>
+          <spinner />
+        </template>
+      </suspense>
+    </div>
+  </section>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HelloWorld from '@/components/Timeline.vue' // @ is an alias to /src
+import Timeline from '../components/Timeline.vue'
+import Spinner from '../components/Spinner.vue'
 
 export default defineComponent({
-  name: 'Home',
+  name: 'App',
   components: {
-    HelloWorld
+    Timeline,
+    Spinner
   }
 })
 </script>

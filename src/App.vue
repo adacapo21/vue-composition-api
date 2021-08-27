@@ -1,36 +1,22 @@
 <template>
   <section class="section">
     <div class="container">
-      <div class="notification is-info is-size-3">
-        <p>
-          An application with Vue.js 3, Composition API, TypeScript, Vue Router and Vue Test Utils!
-        </p>
-      </div>
-      <suspense>
-        <template #default>
-          <timeline />
-        </template>
-        <template #fallback>
-          <spinner />
-        </template>
-      </suspense>
+      <nav-bar />
+      <router-view />
     </div>
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
-import Timeline from './components/Timeline'
-import Spinner from '@/components/Spinner'
+import NavBar from './components/NavBar.vue'
 
 export default defineComponent({
   name: 'App',
-  components: {
-    Timeline,
-    Spinner
-  }
+  components: { NavBar }
 })
 </script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
