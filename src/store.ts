@@ -1,6 +1,7 @@
-import { reactive, readonly } from 'vue'
+import { reactive, readonly, provide, inject, App } from 'vue'
 import { Post } from './mocks'
 import axios from 'axios'
+import { initial } from 'lodash'
 // ref works well with a number, string or a boolean
 // reactive works well with objects
 
@@ -11,14 +12,26 @@ interface PostsState {
   loaded: boolean
 }
 
+export interface User {
+  id: string
+  username: string
+  password: string
+}
+
+export const storeKey = Symbol('store')
+
 interface State {
   posts: PostsState
 }
-class Store {
+export class Store {
   private state: State
 
-  constructor (initial: { posts: { all: Map<any, any>; loaded: boolean; ids: any[] } }) {
+  constructor (initial: State) {
     this.state = reactive(initial) // initialise state
+  }
+
+  install (app: App) {
+    app.provide(storeKey, this)
   }
 
   getState () {
@@ -41,6 +54,14 @@ class Store {
     this.state.posts = postsState
   }
 
+  async createUser (user: User) {
+    const response = await axios.post<User>('/users', user)
+    // this.state.authors.all.set(response.data.id, response.data)
+    // this.state.authors.ids.push(response.data.id)
+    // this.state.authors.currentUserId = response.data.id
+    console.log(response)
+  }
+
   async createPost (post: Post) {
     const response = await axios.post<Post>('/posts', post)
     this.state.posts.all.set(response.data.id, response.data)
@@ -54,7 +75,7 @@ const all = new Map<string, Post>()
 // all.set(thisWeek.id, thisWeek)
 // all.set(thisMonth.id, thisMonth)
 
-const store = new Store({
+export const store = new Store({
   posts: {
     all,
     ids: [],
@@ -63,6 +84,17 @@ const store = new Store({
   }
 })
 
-export function useStore () {
-  return store
+// use
+// composables
+// provide inject
+export function useStore (): Store {
+  const _store = inject<Store>(storeKey)
+  console.log('1111111111111', _store)
+  if (!_store) {
+    throw Error('Did you forgot to call provide?')
+  }
+
+  return _store
 }
+
+// store.getState().posts.loaded

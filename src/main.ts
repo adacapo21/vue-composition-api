@@ -5,6 +5,7 @@ import axios from 'axios'
 import { today, thisWeek, thisMonth } from '@/mocks'
 import 'highlight.js/styles/atom-one-dark.css'
 import random from 'lodash/random'
+import { store, storeKey } from './store'
 
 function delay () {
   return new Promise((resolve) => {
@@ -30,4 +31,7 @@ axios.post = async (url: string, post: Post) => {
     })
   }
 }
-createApp(App).use(router).mount('#app')
+const app = createApp(App)
+app.use(router)
+app.use(store) // use provide as plugin
+app.mount('#app')
