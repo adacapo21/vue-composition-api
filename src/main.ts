@@ -4,6 +4,7 @@ import router from './router'
 import axios from 'axios'
 import { today, thisWeek, thisMonth } from '@/mocks'
 import 'highlight.js/styles/atom-one-dark.css'
+import random from 'lodash/random'
 
 function delay () {
   return new Promise((resolve) => {
@@ -19,5 +20,14 @@ axios.get = async (url: string) => {
     })
   }
 }
-
+// @ts-ignore
+axios.post = async (url: string, post: Post) => {
+  if (url === '/posts') {
+    const id = random(100, 10000)
+    await delay()
+    return Promise.resolve({
+      data: { ...post, id }
+    })
+  }
+}
 createApp(App).use(router).mount('#app')

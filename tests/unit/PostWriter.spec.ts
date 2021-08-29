@@ -2,7 +2,7 @@ import { mount, flushPromises } from '@vue/test-utils'
 import PostWriter from '../../src/components/PostWriter.vue'
 
 describe('PostWriter', () => {
-  it.only('emits a save event with the new post', async(done) => {
+  it.only('emits a save event with the new post', async (done) => {
     const wrapper = mount(PostWriter, {
       props: {
         post: {
@@ -20,7 +20,7 @@ describe('PostWriter', () => {
     setTimeout(async () => {
       await wrapper.find('[data-test="submit"]').trigger('click')
 
-      const emitted = (wrapper.emitted()['save'] as any)[0][0]
+      const emitted = (wrapper.emitted().save as any)[0][0]
       console.log(emitted)
 
       expect(emitted.title).toBe('My new title')
@@ -28,5 +28,5 @@ describe('PostWriter', () => {
       expect(emitted.html).toBe('<h2 id="new-content">New content</h2>\n')
       done()
     }, 300)
-    })
+  })
 })
