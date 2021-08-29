@@ -79,7 +79,6 @@ export const store = new Store({
   posts: {
     all,
     ids: [],
-    // ids: [today.id, thisWeek.id, thisMonth.id],
     loaded: false
   }
 })

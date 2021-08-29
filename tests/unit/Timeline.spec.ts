@@ -1,6 +1,7 @@
 import Timeline from '../../src/components/Timeline.vue'
 import { today, thisWeek, thisMonth } from '@/mocks'
 import { mount, flushPromises } from '@vue/test-utils'
+import { Store } from '../../src/store'
 
 jest.mock('axios', () => ({
   get: (url: string) => {
@@ -11,7 +12,14 @@ jest.mock('axios', () => ({
 }))
 
 function mountTimeline () {
-  return mount({
+  const store = new Store({
+    posts: {
+      ids: [],
+      all: new Map(),
+      loaded: false
+    }
+  })
+  const testComponent = {
     components: { Timeline },
     template: `
       <suspense>
@@ -23,6 +31,11 @@ function mountTimeline () {
         </template>
       </suspense>
     `
+  }
+  return mount(testComponent, {
+    global: {
+      plugins: [store] 
+    }
   })
 }
 

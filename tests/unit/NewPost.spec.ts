@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import NewPost from '../../src/components/NewPost.vue'
 import { Store } from '../../src/store'
 
-const routes: string[] = []
+let routes: string[] = []
 
 jest.mock('vue-router', () => ({
   useRouter: () => {
@@ -14,13 +14,13 @@ jest.mock('vue-router', () => ({
   }
 }))
 
-// jest.mock('axios', () => ({
-//   post: (url: string, payload: any) => {
-//     return {
-//       data: payload
-//     }
-//   }
-// }))
+jest.mock('axios', () => ({
+  post: (url: string, payload: any) => {
+    return {
+      data: payload
+    }
+  }
+}))
 
 describe('NewPost', () => {
   const store = new Store({
@@ -31,9 +31,9 @@ describe('NewPost', () => {
     }
   })
 
-  //   beforeEach(() => {
-  //     routes = []
-  //   })
+    beforeEach(() => {
+      routes = []
+    })
 
   it.only('creates a post and redirects to /', async () => {
     // mount(NewPost)
@@ -43,12 +43,12 @@ describe('NewPost', () => {
       }
     })
 
-    // expect(store.getState().posts.ids).toHaveLength(0)
+    expect(store.getState().posts.ids).toHaveLength(0)
 
     await wrapper.find('[data-test="submit"]').trigger('click')
 
-    // expect(store.getState().posts.ids).toHaveLength(1)
+    expect(store.getState().posts.ids).toHaveLength(1)
 
-    // expect(routes).toEqual(['/'])
+    expect(routes).toEqual(['/'])
   })
 })
