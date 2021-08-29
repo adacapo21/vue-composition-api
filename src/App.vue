@@ -24,13 +24,11 @@
 import { computed, defineComponent, ref } from 'vue'
 import NavBar from './components/NavBar.vue'
 import { useModal } from './useModal'
-// import FormInput from './components/FormInput.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     NavBar
-    // FormInput
   },
   setup () {
     const modal = useModal()

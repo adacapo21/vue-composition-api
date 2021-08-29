@@ -46,7 +46,7 @@ import { defineComponent, ref, PropType, onMounted, watchEffect, watch, withCtx 
 import { parse } from 'marked'
 import highlight from 'highlight.js'
 import debounce from 'lodash/debounce'
-import { useStore } from '@/store'
+import { useStore } from '../store'
 
 export default defineComponent({
   props: {
