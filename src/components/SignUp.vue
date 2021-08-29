@@ -27,7 +27,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import FormInput from './FormInput.vue'
 import { required, length, Status, validate } from '../validation'
-import { useStore } from '../store'
+import { User, useStore } from '../store'
 import { useModal } from '../useModal'
 
 export default defineComponent({
@@ -48,11 +48,15 @@ export default defineComponent({
     const store = useStore()
     const modal = useModal()
     const submit = async (evt: Event) => {
-      if (!usernameStatus.value.valid ||
-        !passwordStatus.value.valid
-      ) {
+      if (!usernameStatus.value.valid || !passwordStatus.value.valid) {
         return
       }
+      const newUser: User = {
+        id: '-1',
+        username: username.value,
+        password: password.value
+      }
+      await store.createUser(newUser)
       modal.hideModal()
     }
 
