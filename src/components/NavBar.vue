@@ -20,16 +20,22 @@
     </div>
   </div>
   <teleport to="#modal">
-    <div>Modal</div>
+    <signup />
   </teleport>
 </template>
 
 <script lang="ts">
+import { defineComponent } from '@vue/runtime-core'
 import { useModal } from '../useModal'
+import Signup from './SignUp.vue'
 // import { useStore } from '../mocks'
 
-export default {
+export default defineComponent({
   name: 'NavBar',
+  components: {
+    Signup
+  },
+
   setup () {
     const modal = useModal()
     // const store = useStore()
@@ -60,5 +66,5 @@ export default {
       show
     }
   }
-}
+})
 </script>

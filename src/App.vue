@@ -21,13 +21,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import NavBar from './components/NavBar.vue'
 import { useModal } from './useModal'
+// import FormInput from './components/FormInput.vue'
 
 export default defineComponent({
   name: 'App',
-  components: { NavBar },
+  components: {
+    NavBar
+    // FormInput
+  },
   setup () {
     const modal = useModal()
     const hide = () => {
