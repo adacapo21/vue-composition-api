@@ -2,13 +2,11 @@ import { reactive, readonly, provide, inject, App } from 'vue'
 import { Post } from './mocks'
 import axios from 'axios'
 import { initial } from 'lodash'
-// ref works well with a number, string or a boolean
-// reactive works well with objects
 
 // create an array of Posts where posts are stored
-interface PostsState {
+interface BaseState<T> {
   ids: string[] // [1, 2, 3, 4]
-  all: Map<string, Post> // Map string(the id of post, to a post)
+  all: Map<string, T> // Map string(the id of post, to a post | Author)
   loaded: boolean
 }
 
@@ -17,11 +15,17 @@ export interface User {
   username: string
   password: string
 }
+export type Author = Omit<User, 'password'>
 
+interface AuthorsState extends BaseState<Author> {
+  currentUserId: string | undefined
+}
+type PostsState = BaseState<Post>
 export const storeKey = Symbol('store')
 
 interface State {
   posts: PostsState
+  authors: AuthorsState
 }
 export class Store {
   private state: State
@@ -55,11 +59,10 @@ export class Store {
   }
 
   async createUser (user: User) {
-    const response = await axios.post<User>('/users', user)
-    // this.state.authors.all.set(response.data.id, response.data)
-    // this.state.authors.ids.push(response.data.id)
-    // this.state.authors.currentUserId = response.data.id
-    console.log(response)
+    const response = await axios.post<Author>('/users', user)
+    this.state.authors.all.set(response.data.id, response.data)
+    this.state.authors.ids.push(response.data.id)
+    this.state.authors.currentUserId = response.data.id
   }
 
   async createPost (post: Post) {
@@ -80,6 +83,12 @@ export const store = new Store({
     all,
     ids: [],
     loaded: false
+  },
+  authors: {
+    all: new Map<string, Author>(),
+    ids: [],
+    loaded: false,
+    currentUserId: '1'
   }
 })
 

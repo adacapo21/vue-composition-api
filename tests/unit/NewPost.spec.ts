@@ -28,12 +28,18 @@ describe('NewPost', () => {
       all: new Map(),
       ids: [],
       loaded: false
+    },
+    authors: {
+      ids: [],
+      all: new Map(),
+      loaded: false,
+      currentUserId: undefined
     }
   })
 
-    beforeEach(() => {
-      routes = []
-    })
+  beforeEach(() => {
+    routes = []
+  })
 
   it.only('creates a post and redirects to /', async () => {
     // mount(NewPost)

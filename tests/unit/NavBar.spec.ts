@@ -10,12 +10,18 @@ jest.mock('vue-router', () => ({
 }))
 
 describe('Navbar', () => {
-  it.only('shows a signup modal via teleport', async () => {
+  it('shows a signup modal via teleport', async () => {
     const store = new Store({
       posts: {
         all: new Map(),
         ids: [],
         loaded: false
+      },
+      authors: {
+        ids: [],
+        all: new Map(),
+        loaded: false,
+        currentUserId: undefined
       }
     })
 
@@ -28,13 +34,13 @@ describe('Navbar', () => {
       global: {
         components: {
           RouterLink: {
-            template: `<div></div>`
+            template: '<div></div>'
           }
         },
         plugins: [
           store
         ]
-    }
+      }
     })
 
     await wrapper.get('[data-test="sign-up"]').trigger('click')

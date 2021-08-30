@@ -17,6 +17,12 @@ function mountTimeline () {
       ids: [],
       all: new Map(),
       loaded: false
+    },
+    authors: {
+      ids: [],
+      all: new Map(),
+      loaded: false,
+      currentUserId: undefined
     }
   })
   const testComponent = {
@@ -34,7 +40,7 @@ function mountTimeline () {
   }
   return mount(testComponent, {
     global: {
-      plugins: [store] 
+      plugins: [store]
     }
   })
 }
