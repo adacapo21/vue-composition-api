@@ -65,7 +65,7 @@ export default defineComponent({
 
   setup (props, context) {
     const title = ref(props.post.title)
-    const content = ref('## Title \n Enter you post content...')
+    const content = ref(props.post.markdown || '')
     const html = ref('')
     const parseHtml = (str: string) => {
       html.value = parse(str, {
@@ -77,9 +77,6 @@ export default defineComponent({
       })
     }
     watch(content, debounce(parseHtml, 250), { immediate: true })
-    // watch(content, debounce((newVal) => {
-    //   parseHtml(newVal)
-    // }, 250), { immediate: true })
 
     const contentEditable = ref<HTMLDivElement | null>(null)
     const handleInput = () => {
