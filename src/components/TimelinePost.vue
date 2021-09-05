@@ -1,12 +1,13 @@
 <template>
-  <a
+  <router-link
+  :to="to"
     :key="post.id"
     class="panel-block">
     <div class="is-flex is-flex-direction-column is-align-items-flex-start">
       <a>{{ post.title }}</a>
       <div>{{ post.created.format('Do MMM YYYY') }}</div>
     </div>
-  </a>
+  </router-link>
 </template>
 
 <script lang="ts">
@@ -28,3 +29,7 @@ export default defineComponent({
   }
 })
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+</style>

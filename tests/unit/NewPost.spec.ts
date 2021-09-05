@@ -33,7 +33,7 @@ describe('NewPost', () => {
       ids: [],
       all: new Map(),
       loaded: false,
-      currentUserId: undefined
+      currentUserId: '100'
     }
   })
 

@@ -1,7 +1,6 @@
 import { reactive, readonly, provide, inject, App } from 'vue'
 import { Post } from './mocks'
 import axios from 'axios'
-import { initial } from 'lodash'
 
 // create an array of Posts where posts are stored
 interface BaseState<T> {
@@ -69,7 +68,18 @@ export class Store {
     const response = await axios.post<Post>('/posts', post)
     this.state.posts.all.set(response.data.id, response.data)
     this.state.posts.ids.push(response.data.id)
-    console.log('Store Posts 222222', this.state.posts)
+    console.log('Store Posts 222222', this.state.posts.ids)
+  }
+
+  async signIn (user: User) {
+    const response = await axios.post<Author>('/sign_in', user)
+    this.state.authors.all.set('1', response.data)
+    this.state.authors.ids.push('1')
+    this.state.authors.currentUserId = '1'
+  }
+
+  signOut () {
+    this.state.authors.currentUserId = undefined
   }
 }
 
@@ -97,7 +107,6 @@ export const store = new Store({
 // provide inject
 export function useStore (): Store {
   const _store = inject<Store>(storeKey)
-  console.log('1111111111111', _store)
   if (!_store) {
     throw Error('Did you forgot to call provide?')
   }

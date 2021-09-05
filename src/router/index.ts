@@ -1,34 +1,59 @@
 import {
   createRouter,
-  createWebHashHistory,
+  createWebHistory,
   RouteRecordRaw
 } from 'vue-router'
 import Home from '../views/Home.vue'
 import NewPost from '../components/NewPost.vue'
+import ShowPost from '../components/ShowPost.vue'
+import EditPost from '../components/EditPost.vue'
+import { Store } from '../store'
 
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  {
-    path: '/posts/new',
-    component: NewPost
-  }
-]
+export function routerWithStore (store: Store) {
+  const router = createRouter({
+    history: createWebHistory(process.env.NODE_ENV === 'production' ? '/vuejs-composition-api-course' : undefined),
+    routes: [
+      {
+        path: '/',
+        component: Home
+      },
+      {
+        path: '/posts/new',
+        component: NewPost,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/posts/:id',
+        component: ShowPost
+      },
+      {
+        path: '/posts/:id/edit',
+        component: EditPost,
+        meta: {
+          requiresAuth: true
+        }
+      }
+    ]
+  })
 
-const router = createRouter({
-  history: createWebHashHistory(),
-  routes
-})
+  router.beforeEach((to, from, next) => {
+    const auth = !!store.getState().authors.currentUserId
 
-export default router
+    if (!to.meta.requiresAuth) {
+      next()
+      return
+    }
+
+    if (to.meta.requiresAuth && auth) {
+      next()
+    } else {
+      next({
+        path: '/'
+      })
+    }
+  })
+
+  return router
+}

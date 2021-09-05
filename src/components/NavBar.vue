@@ -3,67 +3,89 @@
     <div class="navbar-end">
       <div
         class="buttons"
+        v-if="auth"
       >
-      <button
-          class="button"
-          data-test="sign-up"
-          @click="show"
-        >
-          Sign Up
-        </button>
         <router-link
           class="button"
           to="/posts/new"
-        > New Post
+        >
+          New Post
         </router-link>
+
+        <button
+          class="button"
+          @click="signOut"
+        >
+          Sign Out
+        </button>
       </div>
+
+      <div
+        class="buttons"
+        v-else
+      >
+        <button
+          class="button"
+          data-test="sign-up"
+          @click="signUp"
+        >
+          Sign Up
+        </button>
+
+        <button
+          class="button"
+          @click="signIn"
+        >
+          Sign In
+        </button>
+      </div>
+
     </div>
   </div>
+
   <teleport to="#modal">
-    <signup />
+    <component :is="component" />
   </teleport>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/runtime-core'
+import { computed, defineComponent, h, markRaw } from 'vue'
+import { useRouter } from 'vue-router'
+import SignUp from '../components/SignUp.vue'
+import SignIn from '../components/SignIn.vue'
 import { useModal } from '../useModal'
-import Signup from './SignUp.vue'
-// import { useStore } from '../mocks'
+import { useStore } from '../store'
 
 export default defineComponent({
-  name: 'NavBar',
   components: {
-    Signup
+    SignUp,
+    SignIn
   },
-
   setup () {
     const modal = useModal()
-    // const store = useStore()
-    // const router = useRouter()
-    // const auth = computed(() => {
-    //   return !!store.getState().authors.currentUserId
-    // })
-    // const signIn = () => {
-    //   modal.component.value = markRaw(Signin)
-    //   modal.showModal()
-    // }
-    const show = () => {
+    const store = useStore()
+    const router = useRouter()
+    const auth = computed(() => {
+      return !!store.getState().authors.currentUserId
+    })
+    const signIn = () => {
+      modal.component.value = markRaw(SignIn)
       modal.showModal()
     }
-    // const signUp = () => {
-    //   modal.component.value = markRaw(Signup)
-    //   modal.showModal()
-    // }
-    // const signOut = () => {
-    //   store.signOut()
-    //   router.push('/')
-    // }
+    const signUp = () => {
+      modal.component.value = markRaw(SignUp)
+      modal.showModal()
+    }
+    const signOut = () => {
+      store.signOut()
+      router.push('/')
+    }
     return {
-      // component: modal.component,
-      // signIn,
-      // signUp,
-      // signOut,
-      show
+      component: modal.component,
+      signIn,
+      signUp,
+      signOut,
+      auth
     }
   }
 })

@@ -1,5 +1,6 @@
 <template>
   <form @submit.prevent="submit">
+    <p>Test account is username: "user123", password: "pass42".</p>
     <form-input
       v-model="username"
       name="Username"
@@ -34,13 +35,13 @@ export default defineComponent({
     FormInput
   },
   setup () {
-    const username = ref('username')
+    const username = ref('')
     const usernameStatus = computed<Status>(() => {
-      return validate(username.value, [required(), length({ min: 5, max: 10 })])
+      return validate(username.value, [required()])
     })
-    const password = ref('password')
+    const password = ref('')
     const passwordStatus = computed<Status>(() => {
-      return validate(password.value, [required(), length({ min: 10, max: 40 })])
+      return validate(password.value, [required()])
     })
     const store = useStore()
     const modal = useModal()
@@ -50,12 +51,12 @@ export default defineComponent({
       ) {
         return
       }
-      const newUser: User = {
+      const user: User = {
         id: '-1',
         username: username.value,
         password: password.value
       }
-      await store.createUser(newUser)
+      await store.signIn(user)
       modal.hideModal()
     }
     return {
