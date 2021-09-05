@@ -27,6 +27,7 @@ axios.post = async (url: string, payload: any) => {
     const id = random(100, 10000)
     await delay()
     const post: Post = {
+      ...payload,
       title: payload.title,
       created: payload.created,
       id: id.toString(),

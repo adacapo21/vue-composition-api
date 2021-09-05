@@ -8,6 +8,7 @@
     Edit Post
     </router-link>
     <h1>{{ post.title }}</h1>
+    <div v-html="post.html"></div>
 </template>
 
 <script lang="ts">
