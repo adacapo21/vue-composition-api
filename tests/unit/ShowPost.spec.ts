@@ -5,7 +5,7 @@ import { today } from '../../src/mocks'
 import { routerWithStore } from '../../src/router'
 
 describe('ShowPost', () => {
-  it('does not show edit button when not authenticated', async () => {
+  it('does not show edit button when NOT AUTHENTICATED', async () => {
     const store = new Store({
       posts: {
         ids: [today.id],
@@ -35,7 +35,7 @@ describe('ShowPost', () => {
     expect(wrapper.find('[data-test="can-edit"]').exists()).toBe(false)
   })
 
-    it('does not show edit button when not authorized', async () => {
+    it('does not show edit button when NOT AUTHORIZED', async () => {
       const store = new Store({
         posts: {
           ids: [today.id],
@@ -68,7 +68,7 @@ describe('ShowPost', () => {
       expect(wrapper.find('[data-test="can-edit"]').exists()).toBe(false)
     })
 
-    it('shows edit button when authorized', async () => {
+    it('shows edit button when AUTHORIZED', async () => {
       const store = new Store({
         posts: {
           ids: [today.id],
